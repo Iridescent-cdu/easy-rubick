@@ -1,8 +1,18 @@
 import Versions from './components/Versions'
 import electronLogo from './assets/electron.svg'
+import useDragWindow from './utils/dragWindow'
+import { useEffect } from 'react'
 
 function App(): JSX.Element {
   const ipcHandle = (): void => window.electron.ipcRenderer.send('ping')
+  const { onMouseDown } = useDragWindow()
+
+  useEffect(() => {
+    document.addEventListener('mousedown', onMouseDown)
+    return () => {
+      document.removeEventListener('mousedown', onMouseDown)
+    }
+  }, [])
 
   return (
     <>
