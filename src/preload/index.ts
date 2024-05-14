@@ -11,6 +11,7 @@ if (process.contextIsolated) {
     console.error(error)
   }
 } else {
+  /** 关闭上下文隔离后挂载electron api */
   // @ts-ignore (define in dts)
   window.electron = electronAPI
   // @ts-ignore (define in dts)

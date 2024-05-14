@@ -30,9 +30,7 @@ const useDragWindow = () => {
   }
 
   const moveWindow = () => {
-    const { ipcRenderer } = window.require('electron')
-
-    ipcRenderer.send('msg-trigger', {
+    window.electron.ipcRenderer.send('msg-trigger', {
       type: 'windowMoving',
       data: {
         mouseX,
