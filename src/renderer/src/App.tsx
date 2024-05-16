@@ -7,8 +7,17 @@ function App(): JSX.Element {
   const ipcHandle = (): void => window.electron.ipcRenderer.send('ping')
   const { onMouseDown } = useDragWindow()
 
+  const getApps = async () => {
+    const apps = await new Promise((resolve, reject) => {
+      window.api.getApps(resolve, reject)
+    })
+    console.log(apps)
+  }
+
   useEffect(() => {
     document.addEventListener('mousedown', onMouseDown)
+    getApps()
+
     return () => {
       document.removeEventListener('mousedown', onMouseDown)
     }

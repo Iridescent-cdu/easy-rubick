@@ -12,9 +12,9 @@ function createWindow(): void {
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
-      sandbox: false,
-      contextIsolation: false, // 关闭上下文隔离
-      nodeIntegration: true // 需关闭上下文隔离，开启node集成
+      sandbox: false
+      // // contextIsolation: false, // 关闭上下文隔离
+      // nodeIntegration: true // 需关闭上下文隔离，开启node集成
     }
     // frame: false
   })
