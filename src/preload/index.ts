@@ -1,9 +1,11 @@
 import { contextBridge } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
 import getApps from './utils/getApp'
+import getIconFile from './utils/getIconFile'
 
 const api = {
-  getApps
+  getApps,
+  getIconFile
 }
 
 if (process.contextIsolated) {

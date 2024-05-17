@@ -5,13 +5,15 @@ import { useEffect } from 'react'
 
 function App(): JSX.Element {
   const ipcHandle = (): void => window.electron.ipcRenderer.send('ping')
+
   const { onMouseDown } = useDragWindow()
 
   const getApps = async () => {
     const apps = await new Promise((resolve, reject) => {
       window.api.getApps(resolve, reject)
     })
-    console.log(apps)
+    const icon = await window.api.getIconFile(apps[0].path, 'app-store.png')
+    console.log(apps, icon)
   }
 
   useEffect(() => {

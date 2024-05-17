@@ -1,5 +1,5 @@
 import { spawn } from 'child_process'
-import plist from 'plist'
+import plist from 'simple-plist'
 
 export default function getApps(resolve, reject) {
   let resultBuffer = new Buffer.from([])
