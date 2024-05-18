@@ -1,7 +1,40 @@
-import { exec } from 'child_process'
+import { exec, spawn } from 'child_process'
 import fs from 'fs'
 import path from 'path'
 import plist from 'simple-plist'
+
+export const getApps = (resolve, reject) => {
+  let resultBuffer = new Buffer.from([])
+
+  const profileInstalledApps = spawn('/usr/sbin/system_profiler', [
+    '-xml',
+    '-detailLevel',
+    'mini',
+    'SPApplicationsDataType'
+  ])
+
+  profileInstalledApps.stdout.on('data', (chunkBuffer) => {
+    resultBuffer = Buffer.concat([resultBuffer, chunkBuffer])
+  })
+
+  profileInstalledApps.on('exit', (exitCode) => {
+    if (exitCode !== 0) {
+      reject([])
+      return
+    }
+
+    try {
+      const [installedApps] = plist.parse(resultBuffer.toString())
+      return resolve(installedApps._items)
+    } catch (error) {
+      return reject(error)
+    }
+  })
+
+  profileInstalledApps.on('error', (error) => {
+    return reject(error)
+  })
+}
 
 const getIconFile = (appFileInput) => {
   return new Promise((resolve) => {
@@ -39,10 +72,8 @@ const tiffToPng = (iconFile, pngFileOutput) => {
   })
 }
 
-const app2png = (appFileInput, pngFileOutput) => {
+export const app2png = (appFileInput, pngFileOutput) => {
   return getIconFile(appFileInput).then((iconFile) => {
     return tiffToPng(iconFile, pngFileOutput)
   })
 }
-
-export default app2png

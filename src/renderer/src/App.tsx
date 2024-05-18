@@ -12,7 +12,7 @@ function App(): JSX.Element {
     const apps = await new Promise((resolve, reject) => {
       window.api.getApps(resolve, reject)
     })
-    const icon = await window.api.getIconFile(apps[0].path, 'app-store.png')
+    const icon = await window.api.app2png(apps[0].path, 'app-store.png')
     console.log(apps, icon)
   }
 

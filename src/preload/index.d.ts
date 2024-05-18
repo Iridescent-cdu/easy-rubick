@@ -5,7 +5,7 @@ declare global {
     electron: ElectronAPI
     api: {
       getApps: () => Promise<any>
-      getIconFile: (appFileInput: any) => Promise<unknown>
+      app2png: (appFileInput: string, pngFileOutput: string) => Promise<any>
     }
   }
 }
