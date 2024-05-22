@@ -25,6 +25,7 @@ function App(): JSX.Element {
   return (
     <>
       <WebView src="https://www.electronjs.org/"></WebView>
+      <iframe src="https://www.electronjs.org/"></iframe>
     </>
   )
 }
