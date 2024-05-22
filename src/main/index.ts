@@ -12,8 +12,9 @@ function createWindow(): void {
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
-      sandbox: false
-      // // contextIsolation: false, // 关闭上下文隔离
+      sandbox: false,
+      webviewTag: true,
+      contextIsolation: false // 关闭上下文隔离
       // nodeIntegration: true // 需关闭上下文隔离，开启node集成
     }
     // frame: false
@@ -22,7 +23,9 @@ function createWindow(): void {
   mainWindow.on('ready-to-show', () => {
     mainWindow.show()
   })
+
   mainWindow.webContents.openDevTools()
+
   mainWindow.webContents.setWindowOpenHandler((details) => {
     shell.openExternal(details.url)
     return { action: 'deny' }
@@ -41,8 +44,6 @@ app.whenReady().then(() => {
   app.on('browser-window-created', (_, window) => {
     optimizer.watchWindowShortcuts(window)
   })
-
-  ipcMain.on('ping', () => console.log('pong'))
 
   ipcMain.on('msg-trigger', (event, message) => {
     console.log(event, message)
